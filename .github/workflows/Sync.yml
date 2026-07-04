@@ -1,0 +1,26 @@
+name: Sync to Hugging Face Hub
+
+on:
+  push:
+    branches: [master]
+
+  # Allows you to run this workflow manually from the Actions tab
+  workflow_dispatch:
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          lfs: true
+
+      - name: Sync to Hugging Face
+        uses: huggingface/hub-sync@v0.1.0
+        with:
+          github_repo_id: ${{ github.repository }}
+          huggingface_repo_id: bt69/TestD2
+          hf_token: ${{ secrets.HF_TOKEN }}
+          repo_type: space # Change to 'model' or 'dataset' depending on your HF repo type
